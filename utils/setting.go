@@ -14,12 +14,14 @@ import (
 var (
 	AppMode  string
 	HttpPort string
-	Db        string
-	DbHost    string
-	DbPort    string
-	DbUser    string
+	JwtKey   string
+
+	Db         string
+	DbHost     string
+	DbPort     string
+	DbUser     string
 	DbPassWord string
-	DbName    string
+	DbName     string
 )
 
 //init函数是作为一个包初始化的一个函数的接口
@@ -38,14 +40,13 @@ func init() {
 	LoadData(file)
 }
 
-
 func LoadServer(file *ini.File) {
 
 	//调用MustString主要是因为我们要设置默认值，也就是说我们如果通过Section下面的Key取不到值我们直接就给一个默认值debug
 	AppMode = file.Section("Server").Key("AppMode").MustString("debug")
 	HttpPort = file.Section("Server").Key("HttpPort").MustString(":3000")
+	JwtKey = file.Section("Server").Key("JwtKey").MustString("d@%@$GGE%$Y$%YRdgtj9340j5343q112#")
 }
-
 
 func LoadData(file *ini.File) {
 	Db = file.Section("Database").Key("Db").MustString("mysql")

@@ -21,9 +21,13 @@ const (
 	ERROR_TOKEN_RUNTIME    = 1005 //用户在JWT验证的时候token超时
 	ERROR_TOKEN_WRONG      = 1006 //用户在JWT验证的时候token不一样
 	ERROR_TOKEN_TYPE_WRONG = 1007 //TOKEN格式不正确
-
+	ERROR_USER_NO_RIGHT    = 1000 //用户无权限，表示无法登录后台
 	//	code = 2000... 表示文章模块的错误
+	ERROR_CATEGORY_USED = 2001 //用户名已经被使用了
+
 	//  code = 3000... 表示分类模块的错误
+	ERROR_ART_NOT_EXIST  = 3001 //文章不存在
+	ERROR_CATE_NOT_EXIST = 3002 //分类不存在
 
 )
 
@@ -38,6 +42,10 @@ var codemsg = map[int]string{
 	ERROR_TOKEN_RUNTIME:    "TOKEN已过期!",
 	ERROR_TOKEN_WRONG:      "TOKEN不正确!",
 	ERROR_TOKEN_TYPE_WRONG: "TOKEN格式错误",
+	ERROR_CATEGORY_USED:    "该分类已存在",
+	ERROR_ART_NOT_EXIST:    "文章不存在",
+	ERROR_CATE_NOT_EXIST:   "该分类不存在",
+	ERROR_USER_NO_RIGHT:    "该用户无权限",
 }
 
 //输出错误信息的函数

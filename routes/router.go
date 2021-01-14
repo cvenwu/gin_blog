@@ -25,6 +25,7 @@ func InitRouter() {
 		//此时下面的路由前缀都必须是api/v1再加上我们这里的相对路由才可以访问的到
 
 		//user模块的路由接口
+		//添加用户
 		router.POST("user/add", v1.AddUser)
 		//查询用户列表
 		router.GET("users", v1.GetUsers)
@@ -34,8 +35,29 @@ func InitRouter() {
 		router.DELETE("user/:id", v1.DeleteUser)
 
 		//category模块的路由接口
+		//添加分类
+		router.POST("category/add", v1.AddCategory)
+		//查询分类列表
+		router.GET("categories", v1.GetCategories)
+		//编辑分类
+		router.PUT("category/:id", v1.EditCategory)
+		//删除分类
+		router.DELETE("category/:id", v1.DeleteCategory)
 
 		//article模块的路由接口
+		//添加文章
+		router.POST("article/add", v1.AddArticle)
+		//查询文章列表
+		router.GET("articles", v1.GetArticles)
+		//编辑文章
+		router.PUT("article/:id", v1.EditArticle)
+		//查询单个文章
+		router.GET("article/info/:id", v1.GetArticle)
+
+		//删除文章
+		router.DELETE("article/:id", v1.DeleteArticle)
+		//查询某一个分类下的所有文章
+		router.GET("article/list/:id", v1.GetCategoryArticles)
 	}
 
 	r.Run(utils.HttpPort)

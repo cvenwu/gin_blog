@@ -11,6 +11,8 @@ api测试工具：apipost，我们写接口的时候自动帮助我们生成文�
 3. [ini](https://ini.unknwon.io/docs/intro/getting_started)
 4. 加密使用：scrypt(几乎不可以破解，区块链中用的多，**但是开销不知道，如果要正式的话一定要稳重，用成熟的方案比较好**)或bcrypt
 5. JWT-GO
+6. logrus
+7. file-rotatelogs
 
 
 ## 去做的

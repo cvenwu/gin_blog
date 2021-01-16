@@ -103,6 +103,7 @@ func UserEdit(c *gin.Context) {
 
 //删除用户
 func UserDelete(c *gin.Context) {
+	//获取传送过来的id
 
 }
 

@@ -1,17 +1,18 @@
 package main
 
 import (
-	"gin_blog/model"
-	"gin_blog/routes"
+	"gin_blog/config"
+	"github.com/gin-gonic/gin"
 )
 
 /**
  * @Author: yirufeng
- * @Date: 2021/1/11 4:14 下午
+ * @Date: 2021/1/16 10:25 上午
  * @Desc:
  **/
 
 func main() {
-	model.InitDB()
-	routes.InitRouter()
+	config.InitConfig()
+	r := gin.Default()
+	r.Run(":3000")
 }

@@ -1,6 +1,8 @@
 package apiv1
 
 import (
+	"gin_blog/config"
+	"gin_blog/middleware"
 	"gin_blog/model"
 	"gin_blog/util"
 	"github.com/gin-gonic/gin"
@@ -29,7 +31,7 @@ var (
 响应数据格式：
 */
 func UserSignUp(c *gin.Context) {
-	code = util.SUCCESS
+	code = config.SUCCESS
 
 	//1. 获取json中的username 以及 password
 	var user model.User
@@ -42,13 +44,13 @@ func UserSignUp(c *gin.Context) {
 	//3. 返回code以及对应的msg
 	c.JSON(http.StatusOK, gin.H{
 		"code":    code,
-		"message": util.GetMessage(code),
+		"message": config.GetMessage(code),
 	})
 }
 
 //用户登录
 func UserLogin(c *gin.Context) {
-	code = util.SUCCESS
+	code = config.SUCCESS
 
 	var user model.User
 	//1. 接收传入过来的参数
@@ -57,20 +59,20 @@ func UserLogin(c *gin.Context) {
 
 	//2. 判断用户名与密码是否匹配
 	code = model.CheckUsernamePassword(user)
-	if code != util.SUCCESS {
+	if code != config.SUCCESS {
 		c.JSON(http.StatusOK, gin.H{
 			"code":    code,
-			"message": util.GetMessage(code),
+			"message": config.GetMessage(code),
 		})
 		return
 	}
 	//3. TODO: 生成JWT的token并返回
 	var token string
-	token, code = util.ReleaseToken(user)
-	if code != util.SUCCESS {
+	token, code = util.ReleaseToken(user.ID, user.Username)
+	if code != config.SUCCESS {
 		c.JSON(http.StatusOK, gin.H{
 			"code":    code,
-			"message": util.GetMessage(code),
+			"message": config.GetMessage(code),
 		})
 		return
 	}
@@ -78,38 +80,57 @@ func UserLogin(c *gin.Context) {
 	//4. 返回code以及对应的msg
 	c.JSON(http.StatusOK, gin.H{
 		"code":    code,
-		"message": util.GetMessage(code),
+		"message": config.GetMessage(code),
 		"token":   token,
 	})
 }
 
-//用户编辑
+//用户编辑：此时我们直接获取当前用户的信息，然后直接编辑即可
 //获取用户的id然后只允许用户编辑密码
 func UserEdit(c *gin.Context) {
-	code = util.SUCCESS
-	//获取传送过来的id
-	userId, err := strconv.Atoi(c.Param("id"))
-	if err != nil {
-		code = util.UserParamFormatInvalid
+	code = config.SUCCESS
+	user, ok := c.Get("user")
+	if !ok {
+		code = config.FAIL
+		c.JSON(http.StatusOK, gin.H{
+			"code":    code,
+			"message": config.GetMessage(code),
+		})
+		return
 	}
 
-	//获取Json提交的修改后的数据
-
 	//根据id查询用户并修改原来数据的内容
-
-	//返回修改成功
-
+	code = model.EditUser(user.(middleware.UserInfo))
+	//4. 返回code以及对应的msg
+	c.JSON(http.StatusOK, gin.H{
+		"code":    code,
+		"message": config.GetMessage(code),
+	})
 }
 
 //删除用户
 func UserDelete(c *gin.Context) {
 	//获取传送过来的id
+	userId, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		code = config.UserParamFormatInvalid
+		c.JSON(http.StatusOK, gin.H{
+			"code":    code,
+			"message": config.GetMessage(code),
+		})
+		return
+	}
 
+	//根据id删除用户
+	code = model.DeleteUser(userId)
+	c.JSON(http.StatusOK, gin.H{
+		"code":    code,
+		"message": config.GetMessage(code),
+	})
 }
 
 //修改密码
 func UserForgetPassword(c *gin.Context) {
-
 }
 
 //忘记密码

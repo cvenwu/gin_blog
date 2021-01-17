@@ -15,11 +15,11 @@ import (
 func GenerateHashedPassword(password string) (string, int) {
 	pwdHashed, err := bcrypt.GenerateFromPassword([]byte(password), config.BcryptCost)
 	if err != nil {
-		return "", UserPasswordHashedFailed
+		return "", config.UserPasswordHashedFailed
 	}
 
 	//说明加密成功
-	return string(pwdHashed), SUCCESS
+	return string(pwdHashed), config.SUCCESS
 }
 
 //验证用户传入的密码是否正确

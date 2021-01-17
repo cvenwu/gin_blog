@@ -14,7 +14,8 @@ import (
 var (
 	//服务器相关
 	ServerHost string //部署到的服务器的ip
-	ServerPort string //部署到的服务器的端口
+	ServerPort string //部署到的服务器的端
+	RunMode    string //gin的运行方式，debug与release
 
 	//用户密码相关
 	BcryptCost int //用户密码加密需要的盐
@@ -35,7 +36,7 @@ var (
 )
 
 func InitConfig() {
-	f, err := ini.Load("/config/config.ini")
+	f, err := ini.Load("config/config.ini")
 	if err != nil {
 		fmt.Println("-----------------------ini配置文件读取出错，请稍后再试-----------------------", err.Error())
 		return
@@ -44,6 +45,7 @@ func InitConfig() {
 	//如果不存在就返回零值
 	ServerHost = f.Section("server").Key("Host").MustString("127.0.0.1")
 	ServerPort = f.Section("server").Key("Port").MustString(":8080")
+	RunMode = f.Section("server").Key("RunMode").MustString("debug")
 
 	DbType = f.Section("mysql").Key("Name").MustString("mysql")
 	DbHost = f.Section("mysql").Key("Host").MustString("127.0.0.1")

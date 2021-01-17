@@ -24,7 +24,7 @@ func CollectRouter(r *gin.Engine) {
 			//用户登录
 			userV1Group.POST("/login", apiv1.UserLogin)
 			//编辑用户信息
-			userV1Group.PUT("/:id", apiv1.UserEdit)
+			userV1Group.PUT("/", apiv1.UserEdit)
 			//删除用户
 			userV1Group.DELETE("/:id", apiv1.UserDelete)
 			//忘记密码
